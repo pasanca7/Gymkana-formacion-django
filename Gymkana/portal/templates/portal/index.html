@@ -1,0 +1,11 @@
+<h1>Hello World!</h1>
+
+{% if lastest_news_list %}
+    <ul>
+    {% for new in lastest_news_list%}
+            <li>{{ new.title}} </li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>No hay noticias disponibles</p>
+{% endif %}
