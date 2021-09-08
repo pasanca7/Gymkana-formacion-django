@@ -1,4 +1,4 @@
-<h1>Hello World!</h1>
+<h1>Gymkana Django</h1>
 
 {% if lastest_news_list %}
     <ul>
@@ -8,4 +8,14 @@
 </ul>
 {% else %}
     <p>No hay noticias disponibles</p>
+{% endif %}
+
+{% if next_events_list %}
+    <ul>
+    {% for event in next_events_list%}
+            <li>{{ event.title}} </li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>No hay eventos disponibles</p>
 {% endif %}
