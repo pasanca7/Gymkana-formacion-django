@@ -10,7 +10,7 @@ class BaseItem(models.Model):
         abstract = True
 
 class New(BaseItem):
-    publish_date = models.DateTimeField()
+    publish_date = models.DateTimeField(default = timezone.now)
     image = models.ImageField(upload_to = 'static/portal/images/', default ='static/portal/images/default.jpg')
 
 class Event(BaseItem):
