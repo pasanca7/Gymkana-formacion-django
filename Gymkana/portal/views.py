@@ -19,7 +19,7 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         """
-        We just want to see our next three news as 'lastest_events_list'
+        We just want to see our next three news as 'next_events_list'
         """
         context = super().get_context_data(**kwargs)
         context['next_events_list'] = Event.objects.filter(end_date__gte = timezone.now()).order_by('-end_date')[:3]

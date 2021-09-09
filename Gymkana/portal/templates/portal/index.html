@@ -1,21 +1,52 @@
-<h1>Gymkana Django</h1>
+{% load static %}
 
-{% if lastest_news_list %}
-    <ul>
-    {% for new in lastest_news_list%}
-            <li>{{ new.title}} </li>
-    {% endfor %}
-</ul>
-{% else %}
-    <p>No hay noticias disponibles</p>
-{% endif %}
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
 
-{% if next_events_list %}
-    <ul>
-    {% for event in next_events_list%}
-            <li>{{ event.title}} </li>
-    {% endfor %}
-</ul>
-{% else %}
-    <p>No hay eventos disponibles</p>
-{% endif %}
+<div id=navbar>
+    <ul id="navbar"> 
+        <li><a href="#home">Gymkana Django</a></li>
+      </ul>
+</div>
+
+<div class="content">
+    <div class="container" id="news">
+        <h3 class="title_section">Últimas noticias</h3>
+        {% if lastest_news_list %}
+        <table>
+            {% for new in lastest_news_list%}
+            <tr>
+                <th> 
+                    <h2> {{ new.title}} </h2>
+                    <p>{{new.subtitle}}</p>
+                </th>
+                
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>No hay noticias disponibles</p>
+        {% endif %}
+    </div>
+    
+    <div class="container" id="events">
+        {% if next_events_list %}
+        <h3 class="title_section">Próximos eventos</h3>
+        <table>
+            {% for event in next_events_list%}
+            <tr>
+                <th> 
+                    <h2> {{ event.title}} </h2>
+                    <p> {{ event.subtitle}} </p>
+                 </th>
+            </tr>
+        {% endfor %}
+        </table>
+        {% else %}
+            <p>No hay eventos disponibles</p>
+        {% endif %}
+    </div>
+    
+</div>
+
+  
