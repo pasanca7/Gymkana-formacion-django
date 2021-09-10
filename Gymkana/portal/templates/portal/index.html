@@ -11,7 +11,11 @@
 
 <div class="content">
     <div class="container" id="news">
-        <h3 class="title_section">Últimas noticias</h3>
+        <h3 style="display: inline;" class="title_section">Últimas noticias</h3>
+        
+            <a id="form_button" href="{% url 'portal:new_form' %}">
+                <button>Nueva noticia</button>
+            </a>
         {% if lastest_news_list %}
         <table>
             {% for new in lastest_news_list%}
@@ -30,8 +34,8 @@
     </div>
     
     <div class="container" id="events">
-        {% if next_events_list %}
         <h3 class="title_section">Próximos eventos</h3>
+        {% if next_events_list %}
         <table>
             {% for event in next_events_list%}
             <tr>

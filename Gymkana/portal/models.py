@@ -11,7 +11,7 @@ class BaseItem(models.Model):
 
 class New(BaseItem):
     publish_date = models.DateTimeField(default = timezone.now)
-    image = models.ImageField(upload_to = 'static/portal/images/', default ='static/portal/images/default.jpg')
+    image = models.ImageField(upload_to = 'images/', default ='images/default.jpg')
 
 class Event(BaseItem):
     start_date = models.DateTimeField()
