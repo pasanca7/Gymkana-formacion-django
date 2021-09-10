@@ -46,7 +46,13 @@ ul {
     margin-left: auto;
 }
 
-td, th {
+.title table{
+    border-collapse: collapse;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;}
+
+.content td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 16px;
@@ -59,4 +65,23 @@ td, th {
 
 .title_section {
     margin-left: 3%;
+}
+
+label {
+    margin-left: 5%;
+}
+
+button {
+    background-color: #2852b2;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-left: 15%;
 }
