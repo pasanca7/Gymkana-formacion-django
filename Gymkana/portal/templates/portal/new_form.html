@@ -3,7 +3,7 @@
 
 <div class="form">
     <form method="post" enctype="multipart/form-data">
-        {{ new_form.as_p }}
+        {{ form.as_p }}
         {% csrf_token %}
         <button type = "submit">Añadir</button>
     </form>

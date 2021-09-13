@@ -6,15 +6,21 @@
         <h3 style="display: inline;" class="title_section">Últimas noticias</h3>
         
             <a id="form_button" href="{% url 'portal:new_form' %}" style="margin-left: 5%;">
-                <button>Nueva noticia</button>
+                <button style="background-color: green;">Nueva noticia</button>
+            </a>
+            <a id="form_button" href="{% url 'portal:new_form_class' %}" style="margin-left: 5%;">
+                <button style="background-color: mediumvioletred;">Nueva noticia</button>
             </a>
         {% if lastest_news_list %}
         <table>
             {% for new in lastest_news_list%}
             <tr class="clickable-row" data-href="v1/news/{{ new.id }}">
-                <th><a href="v1/news/{{ new.id }}">
+                <th>
                     <h2> {{ new.title }} </h2>
                     <p>{{ new.subtitle }}</p>
+                </th>
+                <th><a id="form_button" href="{% url 'portal:read_new' new.id %}" style="margin-left: 5%;">
+                    <button style="background-color: green;">Leer</button>
                 </a></th>
                 
             </tr>
@@ -31,10 +37,10 @@
         <table>
             {% for event in next_events_list%}
             <tr>
-                <th><a href="v1/events/{{ event.id }}">
+                <th>
                     <h2> {{ event.title}} </h2>
                     <p> {{ event.subtitle}} </p>
-                </a></th>
+                </th>
             </tr>
         {% endfor %}
         </table>
@@ -45,4 +51,3 @@
     
 </div>
 {% endblock %}
-  

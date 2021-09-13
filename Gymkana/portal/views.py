@@ -41,7 +41,7 @@ def create_new(request):
             return redirect('portal:index')
     else:
         new_form = NewForm()
-    return render(request, 'portal/new_form.html', {'new_form':new_form})
+    return render(request, 'portal/new_form.html', {'form':new_form})
 
 """
 Read new in FBV
@@ -74,3 +74,11 @@ def delete_new(request, new_id):
         return HttpResponseRedirect(reverse('portal:index'))
     else:
         return render(request, 'portal/delete_form.html', {'new':new})
+
+"""
+Creation of new CBV
+"""
+class create_new_class(generic.CreateView):
+    template_name = 'portal/new_form.html'
+    form_class = NewForm
+    success_url = '/'
