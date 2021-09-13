@@ -35,9 +35,16 @@ ul {
     text-decoration: none;
 }
 
-#navbar .active {
-    background-color: #4CAF50;
+#navbar li {
+    display: block;
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    padding: 14px 16px;
+    height: 100%;
+    text-decoration: none;
 }
+
 
 .content table {
     border-collapse: collapse;
@@ -49,6 +56,7 @@ ul {
 .content td, th {
     border: 1px solid #dddddd;
     text-align: left;
+    padding: 12px;
 }
 
 th a {
