@@ -1,13 +1,5 @@
-{% load static %}
-
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
-
-<div id=navbar>
-    <ul id="navbar"> 
-        <li><a href="#home">Gymkana Django</a></li>
-      </ul>
-</div>
+{% extends 'portal/base.html' %}
+{% block content %}
 
 <div class="form">
     <form method="post" enctype="multipart/form-data">
@@ -16,3 +8,5 @@
         <button type = "submit">Create</button>
     </form>
 </div>
+
+{% endblock %}

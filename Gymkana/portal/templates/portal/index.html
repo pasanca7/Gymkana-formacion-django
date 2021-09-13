@@ -1,13 +1,5 @@
-{% load static %}
-
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
-
-<div id=navbar>
-    <ul id="navbar"> 
-        <li><a href="#home">Gymkana Django</a></li>
-      </ul>
-</div>
+{% extends 'portal/base.html' %}
+{% block content %}
 
 <div class="content">
     <div class="container" id="news">
@@ -52,5 +44,5 @@
     </div>
     
 </div>
-
+{% endblock %}
   
