@@ -7,7 +7,7 @@ from portal.forms import NewForm
 from portal.models import Event, New
 from django.utils import timezone
 from django.views import generic
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from PIL import Image
 
 def image_to_byte_array(image:Image):
@@ -41,7 +41,7 @@ class IndexView(generic.ListView):
 """
 Creation of new in FBV
 """
-def createNew(request):
+def create_new(request):
     if request.method == 'POST':
         new_form = NewForm(request.POST, request.FILES)        
         if new_form.is_valid():
@@ -50,3 +50,10 @@ def createNew(request):
     else:
         new_form = NewForm()
     return render(request, 'portal/new_form.html', {'new_form':new_form})
+
+"""
+Read of new in FBV
+"""
+def read_new(request, new_id):
+    new = get_object_or_404(New, pk = new_id)
+    return render(request, 'portal/read_new.html', {'new': new})
