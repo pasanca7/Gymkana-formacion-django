@@ -46,16 +46,14 @@ ul {
     margin-left: auto;
 }
 
-.title table{
-    border-collapse: collapse;
-    width: 80%;
-    margin-right: auto;
-    margin-left: auto;}
-
 .content td, th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 16px;
+}
+
+th a {
+    display: block;
+    margin-left: 3%;
 }
 
 .container {
@@ -64,6 +62,7 @@ ul {
 }
 
 .title_section {
+    margin-top: 3%;
     margin-left: 3%;
 }
 

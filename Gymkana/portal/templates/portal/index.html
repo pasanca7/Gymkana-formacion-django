@@ -19,11 +19,11 @@
         {% if lastest_news_list %}
         <table>
             {% for new in lastest_news_list%}
-            <tr>
-                <th> 
-                    <h2> {{ new.title}} </h2>
-                    <p>{{new.subtitle}}</p>
-                </th>
+            <tr class="clickable-row" data-href="v1/news/{{ new.id }}">
+                <th><a href="v1/news/{{ new.id }}">
+                    <h2> {{ new.title }} </h2>
+                    <p>{{ new.subtitle }}</p>
+                </a></th>
                 
             </tr>
             {% endfor %}
@@ -39,10 +39,10 @@
         <table>
             {% for event in next_events_list%}
             <tr>
-                <th> 
+                <th><a href="v1/events/{{ event.id }}">
                     <h2> {{ event.title}} </h2>
                     <p> {{ event.subtitle}} </p>
-                 </th>
+                </a></th>
             </tr>
         {% endfor %}
         </table>
