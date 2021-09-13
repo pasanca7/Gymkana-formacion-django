@@ -63,3 +63,14 @@ def edit_new(request, new_id):
     else:
         form = NewForm(instance = new, initial={'new_id': new_id})
     return render(request, 'portal/edit_new.html', {'form':form})
+
+"""
+Delte new FBV
+"""
+def delete_new(request, new_id):
+    new = get_object_or_404(New, pk = new_id)
+    if request.method == 'POST':
+        new.delete()
+        return HttpResponseRedirect(reverse('portal:index'))
+    else:
+        return render(request, 'portal/delete_form.html', {'new':new})
