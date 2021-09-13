@@ -1,0 +1,13 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+
+<div class="form">
+    <form method="POST">
+        {% csrf_token %}
+        <p style="text-align: center;">¿Esta seguro de que quiere eliminar la noticia?</p>
+        <button type = "submit" style="margin-left: 50%;">Confirmar</button>
+    </form>
+</div>
+
+
+{% endblock %}

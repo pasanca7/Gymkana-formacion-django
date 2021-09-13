@@ -26,6 +26,10 @@
     <a id="form_button" href="{% url 'portal:edit_new' new.id %}" style="float: right;">
         <button>Editar</button>
     </a>
+
+    <a id="form_button" href="{% url 'portal:delete_new' new.id %}" style="float: right;">
+        <button>Eliminar</button>
+    </a>
         
 </div>
 {% endblock %}
