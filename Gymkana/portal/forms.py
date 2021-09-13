@@ -15,7 +15,7 @@ class NewForm(forms.ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data['image']
-        
+
         #Case we upload the image
         if type(image) != str:
             """
