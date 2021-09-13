@@ -22,7 +22,9 @@
                 <th><a id="form_button" href="{% url 'portal:read_new' new.id %}" style="margin-left: 5%;">
                     <button style="background-color: green;">Leer</button>
                 </a></th>
-                
+                <th><a id="form_button" href="{% url 'portal:read_new_class' new.id %}" style="margin-left: 5%;">
+                    <button style="background-color: mediumvioletred;">Leer</button>
+                </a></th>
             </tr>
             {% endfor %}
         </table>

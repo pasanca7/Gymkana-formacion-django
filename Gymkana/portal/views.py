@@ -82,3 +82,11 @@ class create_new_class(generic.CreateView):
     template_name = 'portal/new_form.html'
     form_class = NewForm
     success_url = '/'
+
+"""
+Read new with CBV
+"""
+class read_new_class(generic.DetailView):
+    model = New
+    template_name = 'portal/read_new.html'
+    
