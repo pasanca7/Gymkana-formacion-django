@@ -1,7 +1,4 @@
-import os
 import io
-
-from django.forms.utils import ErrorList
 
 from portal.forms import NewForm
 from portal.models import Event, New
@@ -46,14 +43,28 @@ def create_new(request):
         new_form = NewForm(request.POST, request.FILES)        
         if new_form.is_valid():
             new_form.save()
-            return redirect('/portal/')
+            return redirect('portal:index')
     else:
         new_form = NewForm()
     return render(request, 'portal/new_form.html', {'new_form':new_form})
 
 """
-Read of new in FBV
+Read new in FBV
 """
 def read_new(request, new_id):
     new = get_object_or_404(New, pk = new_id)
     return render(request, 'portal/read_new.html', {'new': new})
+
+"""
+Edit new in FBV
+"""
+def edit_new(request, new_id):
+    new = get_object_or_404(New, pk = new_id)
+    if request.method == 'POST':
+        form = NewForm(request.POST or None, files =  request.FILES or None, instance = new)
+        if form.is_valid:
+            form.save()
+            return redirect('')
+    else:
+        form = NewForm(instance = new, initial={'new_id': new_id})
+    return render(request, 'portal/edit_new.html', {'form':form})
