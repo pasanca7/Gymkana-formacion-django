@@ -90,3 +90,13 @@ class read_new_class(generic.DetailView):
     model = New
     template_name = 'portal/read_new.html'
     
+"""
+Creation of new CBV
+"""
+class edit_new_class(generic.UpdateView):
+    model = New
+    template_name = 'portal/edit_new.html'
+    form_class = NewForm
+
+    def get_success_url(self):
+        return reverse('portal:read_new_class', kwargs = {'pk':self.object.id})
