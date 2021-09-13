@@ -1,13 +1,5 @@
-{% load static %}
-
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
-
-<div id=navbar>
-    <ul id="navbar"> 
-        <li><a href="#home">Gymkana Django</a></li>
-    </ul>
-</div>
+{% extends 'portal/base.html' %}
+{% block content %}
 
 <div style="margin-left: 5%; margin-right: 5%;">
 
@@ -30,5 +22,10 @@
     <div>
         <p>{{ new.body }}</p>
     </div>
+
+    <a id="form_button" href="{% url 'portal:edit_new' new.id %}" style="float: right;">
+        <button>Editar</button>
+    </a>
         
 </div>
+{% endblock %}

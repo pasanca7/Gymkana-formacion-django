@@ -82,5 +82,9 @@ button {
     margin: 4px 2px;
     border-radius: 12px;
     cursor: pointer;
-    margin-left: 15%;
+}
+
+.form button {
+    margin-left: 21%;
+    
 }

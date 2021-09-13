@@ -1,19 +1,11 @@
-{% load static %}
-
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link rel="stylesheet" type="text/css" href="{% static 'portal/style.css' %}">
-
-<div id=navbar>
-    <ul id="navbar"> 
-        <li><a href="#home">Gymkana Django</a></li>
-      </ul>
-</div>
+{% extends 'portal/base.html' %}
+{% block content %}
 
 <div class="content">
     <div class="container" id="news">
         <h3 style="display: inline;" class="title_section">Últimas noticias</h3>
         
-            <a id="form_button" href="{% url 'portal:new_form' %}">
+            <a id="form_button" href="{% url 'portal:new_form' %}" style="margin-left: 5%;">
                 <button>Nueva noticia</button>
             </a>
         {% if lastest_news_list %}
@@ -52,5 +44,5 @@
     </div>
     
 </div>
-
+{% endblock %}
   
