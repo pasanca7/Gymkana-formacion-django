@@ -4,11 +4,11 @@
 <div style="margin-left: 5%; margin-right: 5%;">
 
     <div style="text-align: center;">
-        <img src="/media/{{ new.image }}" alt="{{ new.image }}">
+        <h1>{{ new.title }}</h1>
     </div>
 
     <div style="text-align: center;">
-        <h1>{{ new.title }}</h1>
+        <img src="/media/{{ new.image }}" alt="{{ new.image }}">
     </div>
     
     <div>
@@ -23,12 +23,16 @@
         <p>{{ new.body }}</p>
     </div>
 
+    <a id="form_button" href="{% url 'portal:edit_new_class' new.id %}" style="float: left;">
+        <button style="background-color: mediumvioletred;">Editar</button>
+    </a>
+
     <a id="form_button" href="{% url 'portal:edit_new' new.id %}" style="float: right;">
-        <button>Editar</button>
+        <button style="background-color: green;">Editar</button>
     </a>
 
     <a id="form_button" href="{% url 'portal:delete_new' new.id %}" style="float: right;">
-        <button>Eliminar</button>
+        <button style="background-color: green;">Eliminar</button>
     </a>
         
 </div>
