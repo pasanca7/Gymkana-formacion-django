@@ -1,5 +1,7 @@
 import io
 
+from django.urls.base import reverse_lazy
+
 from portal.forms import NewForm
 from portal.models import Event, New
 from django.utils import timezone
@@ -100,3 +102,11 @@ class edit_new_class(generic.UpdateView):
 
     def get_success_url(self):
         return reverse('portal:read_new_class', kwargs = {'pk':self.object.id})
+
+"""
+Delete new with CBV
+"""
+class delete_new_class(generic.DeleteView):
+    model = New
+    success_url = '/'
+    template_name = 'portal/delete_form.html'

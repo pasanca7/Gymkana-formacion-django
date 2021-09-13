@@ -12,4 +12,5 @@ urlpatterns = [
     path('v2/news/create', views.create_new_class.as_view(), name = 'new_form_class'),
     path('v2/news/<int:pk>', views.read_new_class.as_view(), name = 'read_new_class'),
     path('v2/news/<int:pk>/edit', views.edit_new_class.as_view(), name = 'edit_new_class'),
+    path('v2/news/<int:pk>/delete', views.delete_new_class.as_view(), name = 'delete_new_class'),
     ]

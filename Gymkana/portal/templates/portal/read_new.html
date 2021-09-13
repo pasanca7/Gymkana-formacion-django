@@ -27,12 +27,16 @@
         <button style="background-color: mediumvioletred;">Editar</button>
     </a>
 
-    <a id="form_button" href="{% url 'portal:edit_new' new.id %}" style="float: right;">
-        <button style="background-color: green;">Editar</button>
+    <a id="form_button" href="{% url 'portal:delete_new_class' new.id %}" style="float: left;">
+        <button style="background-color: mediumvioletred;">Eliminar</button>
     </a>
 
     <a id="form_button" href="{% url 'portal:delete_new' new.id %}" style="float: right;">
         <button style="background-color: green;">Eliminar</button>
+    </a>
+
+    <a id="form_button" href="{% url 'portal:edit_new' new.id %}" style="float: right;">
+        <button style="background-color: green;">Editar</button>
     </a>
         
 </div>
