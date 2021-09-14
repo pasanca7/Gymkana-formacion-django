@@ -2,7 +2,7 @@ import io
 
 from django.urls.base import reverse_lazy
 
-from portal.forms import NewForm
+from portal.forms import NewForm, EventForm
 from portal.models import Event, New
 from django.utils import timezone
 from django.views import generic
@@ -111,3 +111,11 @@ class delete_new_class(generic.DeleteView):
     model = New
     success_url = '/'
     template_name = 'portal/delete_form.html'
+
+"""
+Create events with CBV
+"""
+class create_event_class(generic.CreateView):
+    template_name = 'portal/event_form.html'
+    form_class = EventForm
+    success_url = '/'

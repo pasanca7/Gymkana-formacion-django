@@ -14,5 +14,5 @@ class New(BaseItem):
     image = models.ImageField(upload_to = '', default ='default.jpg')
 
 class Event(BaseItem):
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    start_date = models.DateTimeField(null=False)
+    end_date = models.DateTimeField(null=False)
