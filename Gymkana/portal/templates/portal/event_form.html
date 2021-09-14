@@ -1,0 +1,12 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+
+<div class="form">
+    <form method="post" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type = "submit">Añadir</button>
+    </form>
+</div>
+
+{% endblock %}

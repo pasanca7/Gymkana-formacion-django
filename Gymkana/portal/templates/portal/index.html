@@ -30,11 +30,15 @@
         </table>
         {% else %}
             <p>No hay noticias disponibles</p>
+            
         {% endif %}
     </div>
     
-    <div class="container" id="events">
-        <h3 class="title_section">Próximos eventos</h3>
+    <div class="container" id="events" style="margin-top: 3%;">
+        <h3 style="display: inline;" class="title_section">Próximos eventos</h3>
+        <a id="form_button" href="{% url 'portal:event_form_class' %}" style="margin-left: 5%;">
+            <button style="background-color: mediumvioletred;">Nuevo evento</button>
+        </a>
         {% if next_events_list %}
         <table>
             {% for event in next_events_list%}

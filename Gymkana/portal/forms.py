@@ -1,7 +1,8 @@
 from django import forms
-from .models import New
+from .models import Event, New
 
 class NewForm(forms.ModelForm):
+    
     class Meta:
         model = New
         fields = ['title', 'subtitle', 'body', 'image']
@@ -31,3 +32,29 @@ class NewForm(forms.ModelForm):
                 raise forms.ValidationError('Máximo 10 MB', code = 'heavy_img')
 
         return image
+
+class EventForm(forms.ModelForm):
+    
+    class Meta:
+        model = Event
+        fields = ['title', 'subtitle', 'body', 'start_date', 'end_date']
+
+        labels = {
+            'title': 'Título',
+            'subtitle': 'Subtítulo',
+            'body': 'Cuerpo',
+            'start_date': 'Fecha de comienzo',
+            'end_date': 'Fecha de fin'
+        }
+
+    def clean_end_date(self):
+        start_date = self.cleaned_data['start_date']
+        end_date = self.cleaned_data['end_date']
+
+        """
+        start_date must be before end_start
+        """
+        if start_date > end_date:
+            raise forms.ValidationError('La fecha de comienzo no puede ser posterior a la fin', code = 'invalid_dates')
+
+        return end_date
