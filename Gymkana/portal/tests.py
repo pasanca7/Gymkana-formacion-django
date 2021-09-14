@@ -1,9 +1,7 @@
 import datetime
-from django.http import response
 import pytz
 
 from .models import New, Event
-from .forms import  NewForm
 
 from django.test import TestCase
 from django.test.client import Client
@@ -40,6 +38,10 @@ class index_tests(TestCase):
         self.assertQuerysetEqual(Event.objects.filter(title='Título 2'), ['<Event: Event object (2)>'])
         self.assertQuerysetEqual(Event.objects.filter(title='Título 3'), ['<Event: Event object (3)>'])
 
+"""
+Tests for NEWS with FBV
+"""
+
 class new_creation_tests(TestCase):
 
     def setUp(self):
@@ -64,6 +66,11 @@ class new_read_tests(TestCase):
         self.client = Client()
         New.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5")
 
+    def test_404_read_new(self):
+        url = reverse('portal:read_new', kwargs={'new_id': 2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
     def test_read_new(self):
         url = reverse('portal:read_new', kwargs={'new_id': 1})
         response = self.client.get(url)
@@ -71,10 +78,6 @@ class new_read_tests(TestCase):
         self.assertQuerysetEqual(New.objects.filter(title='Título 5'), ['<New: New object (1)>'])
         self.assertTemplateUsed(response, 'portal/read_new.html')
 
-    def test_404_read_new(self):
-        url = reverse('portal:read_new', kwargs={'new_id': 2})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
 
 class new_edit_tests(TestCase):
 
@@ -89,7 +92,127 @@ class new_edit_tests(TestCase):
 
     def test_edit_new_page(self):
         url = reverse('portal:edit_new', kwargs={'new_id':1})
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'portal/edit_new.html')
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_edit_new(self):
+        url = reverse('portal:edit_new', kwargs={'new_id':1})
         edit_content = {'title':'Título editado', 'subtitle':'Subtítulo editado', 'body':'Cuerpo editado'}
         response = self.client.post(url, edit_content)
         self.assertEqual(response.status_code, 302)
         self.assertQuerysetEqual(New.objects.filter(title='Título editado'), ['<New: New object (1)>'])
+
+class new_delete_test(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.new_1 = New.objects.create(title="Título 7", subtitle="Subtítulo 7", body="Cuerpo 8")
+
+    def test_404_delete(self):
+        url = reverse('portal:delete_new', kwargs={'new_id':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_new_page(self):
+        url = reverse('portal:delete_new', kwargs={'new_id':1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'portal/delete_form.html')
+        self.assertQuerysetEqual(New.objects.filter(title='Título 7'), ['<New: New object (1)>'])
+
+    def test_delete_new(self):
+        url = reverse('portal:delete_new', kwargs={'new_id':1})
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(New.objects.filter(title='Título 7'), [])
+
+"""
+Tests for NEWS with CBV
+"""
+
+class new_creation_tests_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_creation_new_page(self):
+        url = reverse('portal:new_form_class')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'portal/new_form.html')
+
+    def test_create_new(self):
+        url = reverse('portal:new_form_class')
+        new_content = {'title':'Título 4', 'subtitle':'Test #5', 'body':'Esta es una noticia de prueba.'}
+        response = self.client.post(url, new_content)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(New.objects.filter(title='Título 4'), ['<New: New object (1)>'])
+
+class new_read_tests_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        New.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5")
+
+    def test_404_read_new(self):
+        url = reverse('portal:read_new_class', kwargs={'pk': 2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_read_new(self):
+        url = reverse('portal:read_new_class', kwargs={'pk': 1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(New.objects.filter(title='Título 5'), ['<New: New object (1)>'])
+        self.assertTemplateUsed(response, 'portal/read_new.html')
+
+class new_edit_tests_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.new_1 = New.objects.create(title="Título 6", subtitle="Subtítulo 6", body="Cuerpo 6")
+
+    def test_404_edit_test(self):
+        url = reverse('portal:edit_new_class', kwargs={'pk':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_edit_new_page(self):
+        url = reverse('portal:edit_new_class', kwargs={'pk':1})
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'portal/edit_new.html')
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_edit_new(self):
+        url = reverse('portal:edit_new_class', kwargs={'pk':1})
+        edit_content = {'title':'Título editado', 'subtitle':'Subtítulo editado', 'body':'Cuerpo editado'}
+        response = self.client.post(url, edit_content)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(New.objects.filter(title='Título editado'), ['<New: New object (1)>'])
+
+class new_delete_test_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.new_1 = New.objects.create(title="Título 7", subtitle="Subtítulo 7", body="Cuerpo 8")
+
+    def test_404_delete(self):
+        url = reverse('portal:delete_new_class', kwargs={'pk':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_new_page(self):
+        url = reverse('portal:delete_new_class', kwargs={'pk':1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'portal/delete_form.html')
+        self.assertQuerysetEqual(New.objects.filter(title='Título 7'), ['<New: New object (1)>'])
+
+    def test_delete_new(self):
+        url = reverse('portal:delete_new_class', kwargs={'pk':1})
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(New.objects.filter(title='Título 7'), [])
