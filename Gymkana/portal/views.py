@@ -41,6 +41,7 @@ def create_new(request):
         if new_form.is_valid():
             new_form.save()
             return redirect('portal:index')
+
     else:
         new_form = NewForm()
     return render(request, 'portal/new_form.html', {'form':new_form})
