@@ -216,3 +216,25 @@ class new_delete_test_class(TestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertQuerysetEqual(New.objects.filter(title='Título 7'), [])
+
+"""
+Tests for events
+"""
+
+class event_creation_tests_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_creation_event_page(self):
+        url = reverse('portal:event_form_class')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'portal/event_form.html')
+
+    def test_create_event(self):
+        url = reverse('portal:event_form_class')
+        event_content = {'title':'Título 1', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'20/10/2021', 'end_date':'21/10/2021'}
+        response = self.client.post(url, event_content)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 1'), ['<Event: Event object (1)>'])
