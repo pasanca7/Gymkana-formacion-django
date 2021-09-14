@@ -68,6 +68,28 @@ class new_read_tests(TestCase):
         url = reverse('portal:read_new', kwargs={'new_id': 1})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(New.objects.filter(title='Título 5'), ['<New: New object (1)>'])
         self.assertTemplateUsed(response, 'portal/read_new.html')
 
+    def test_404_read_new(self):
+        url = reverse('portal:read_new', kwargs={'new_id': 2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
 
+class new_edit_tests(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.new_1 = New.objects.create(title="Título 6", subtitle="Subtítulo 6", body="Cuerpo 6")
+
+    def test_404_edit_test(self):
+        url = reverse('portal:edit_new', kwargs={'new_id':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_edit_new_page(self):
+        url = reverse('portal:edit_new', kwargs={'new_id':1})
+        edit_content = {'title':'Título editado', 'subtitle':'Subtítulo editado', 'body':'Cuerpo editado'}
+        response = self.client.post(url, edit_content)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(New.objects.filter(title='Título editado'), ['<New: New object (1)>'])
