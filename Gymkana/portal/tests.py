@@ -186,7 +186,6 @@ class new_edit_tests_class(TestCase):
         self.assertTemplateUsed(response, 'portal/edit_new.html')
         self.assertEqual(response.status_code, 200)
 
-
     def test_edit_new(self):
         url = reverse('portal:edit_new_class', kwargs={'pk':1})
         edit_content = {'title':'Título editado', 'subtitle':'Subtítulo editado', 'body':'Cuerpo editado'}
@@ -257,3 +256,27 @@ class event_read_tests_class(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(Event.objects.filter(title='Título 4'), ['<Event: Event object (1)>'])
         self.assertTemplateUsed(response, 'portal/read_event.html')
+
+class event_edit_tests_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.event_1 =         Event.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+
+    def test_404_edit_test(self):
+        url = reverse('portal:edit_event_class', kwargs={'pk':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_edit_event_page(self):
+        url = reverse('portal:edit_event_class', kwargs={'pk':1})
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'portal/edit_event.html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_event(self):
+        url = reverse('portal:edit_event_class', kwargs={'pk':1})
+        edit_content = {'title':'Título editado', 'subtitle':'Subtítulo editado', 'body':'Cuerpo editado', 'start_date':'20/10/2021', 'end_date':'21/10/2021'}
+        response = self.client.post(url, edit_content)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título editado'), ['<Event: Event object (1)>'])

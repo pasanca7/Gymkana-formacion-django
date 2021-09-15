@@ -19,5 +19,9 @@
         <p>{{ event.body }}</p>
     </div>
 
+    <a id="form_button" href="{% url 'portal:edit_event_class' event.id %}" style="float: right;">
+        <button style="background-color: mediumvioletred;">Editar</button>
+    </a>
+
 </div>
 {% endblock %}
