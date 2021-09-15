@@ -137,3 +137,13 @@ class edit_event_class(generic.UpdateView):
 
     def get_success_url(self):
         return reverse('portal:read_event_class', kwargs = {'pk':self.object.id})
+
+"""
+Delete events with CBV and a Modal window
+"""
+class delete_event_class(generic.DeleteView):
+    model = Event
+    success_url = '/'
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
