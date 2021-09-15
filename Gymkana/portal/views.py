@@ -7,7 +7,7 @@ from portal.models import Event, New
 from django.utils import timezone
 from django.views import generic
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http.response import HttpResponseRedirect
+from django.http.response import Http404, HttpResponseRedirect
 from django.urls import reverse
 
 from rest_framework.views import APIView
@@ -156,12 +156,12 @@ class delete_event_class(generic.DeleteView):
 """
 API methods for Events
 """
-class EventApiView(APIView):
+class event_APIView_create(APIView):
 
     serializer_class = serializers.event_serializer
 
     """
-    Create an Event
+    Endpoint for Create an Event
     """
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -170,4 +170,21 @@ class EventApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
+class event_APIView_detail(APIView):
+
+    def get_object(self, pk):
+            try:
+                return Event.objects.get(pk=pk)
+            except Event.DoesNotExist:
+                raise Http404
+
+    """
+    Endpoint for Read an Event 
+    """
+    def get(self, request, pk, format=None):
+        event = self.get_object(pk)
+        serializer = serializers.event_serializer(event)
+        return Response(serializer.data)
+

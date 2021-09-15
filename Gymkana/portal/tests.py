@@ -304,16 +304,34 @@ class event_create_API(TestCase):
         self.client = Client()
 
     def test_create_event_API(self):
-        url = reverse('portal:event_api')
+        url = reverse('portal:create_event_api')
         event_content = {'title':'Título 1', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-20T09:00', 'end_date':'2021-10-21T09:00'}
         response = self.client.post(url, event_content)
         self.assertEqual(response.status_code, 201)
         self.assertQuerysetEqual(Event.objects.filter(title='Título 1'), ['<Event: Event object (1)>'])
 
     def test_date_create_error(self):
-        url = reverse('portal:event_api')
+        url = reverse('portal:create_event_api')
         event_content = {'title':'Título 2', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-22T09:00', 'end_date':'2021-10-21T09:00'}
         response = self.client.post(url, event_content)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.content, b'{"non_field_errors":["La fecha de comienzo no puede ser posterior a la fin"]}')
         self.assertQuerysetEqual(Event.objects.filter(title='Título 2'), [])
+
+class event_read_API(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.event_1 = Event.objects.create(title="Título 7", subtitle="Subtítulo 7", body="Cuerpo 7", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+
+    def test_read_event_API(self):
+        url = reverse('portal:event_detail_api',kwargs={'pk':1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 7'), ['<Event: Event object (1)>'])
+
+    def test_read_event_error_API(self):
+        url = reverse('portal:event_detail_api',kwargs={'pk':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.content, b'{"detail":"No encontrado."}')
