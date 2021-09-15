@@ -285,7 +285,7 @@ class event_delete_test_class(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.event_1 = Event.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+        self.event_1 = Event.objects.create(title="Título 6", subtitle="Subtítulo 6", body="Cuerpo 6", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
 
     def test_404_delete(self):
         url = reverse('portal:delete_event_class', kwargs={'pk':2})
@@ -296,4 +296,16 @@ class event_delete_test_class(TestCase):
         url = reverse('portal:delete_event_class', kwargs={'pk':1})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        self.assertQuerysetEqual(Event.objects.filter(title='Título 7'), [])
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 6'), [])
+
+class event_create_API(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_create_event_API(self):
+        url = reverse('portal:event_api')
+        event_content = {'title':'Título 1', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-20T09:00', 'end_date':'2021-10-21T09:00'}
+        response = self.client.post(url, event_content)
+        self.assertEqual(response.status_code, 201)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 1'), ['<Event: Event object (1)>'])
