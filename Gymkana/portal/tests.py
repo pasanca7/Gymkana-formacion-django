@@ -1,4 +1,5 @@
 import datetime
+from django.conf.urls import url
 import pytz
 
 from .models import New, Event
@@ -238,3 +239,21 @@ class event_creation_tests_class(TestCase):
         response = self.client.post(url, event_content)
         self.assertEqual(response.status_code, 302)
         self.assertQuerysetEqual(Event.objects.filter(title='Título 1'), ['<Event: Event object (1)>'])
+
+class event_read_tests_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        Event.objects.create(title="Título 4", subtitle="Subtítulo 4", body="Cuerpo 4", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+
+    def test_404_read_event(self):
+        url = reverse('portal:read_event_class', kwargs={'pk': 2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_read_new(self):
+        url = reverse('portal:read_event_class', kwargs={'pk': 1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 4'), ['<Event: Event object (1)>'])
+        self.assertTemplateUsed(response, 'portal/read_event.html')

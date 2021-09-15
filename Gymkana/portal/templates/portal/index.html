@@ -42,13 +42,16 @@
         {% if next_events_list %}
         <table>
             {% for event in next_events_list%}
-            <tr>
-                <th>
-                    <h2> {{ event.title}} </h2>
-                    <p> {{ event.subtitle}} </p>
-                </th>
+            <tr class="clickable-row" data-href="v1/events/{{ event.id }}">
+                <td>
+                    <h2> {{ event.title }} </h2>
+                    <p>{{ event.start_date }}</p>
+                </td>
+                <td style="text-align: center; width: 7%;"><a id="form_button" href="{% url 'portal:read_event_class' event.id %}">
+                    <button style="background-color: mediumvioletred;">Leer</button>
+                </a></td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </table>
         {% else %}
             <p>No hay eventos disponibles</p>

@@ -119,3 +119,10 @@ class create_event_class(generic.CreateView):
     template_name = 'portal/event_form.html'
     form_class = EventForm
     success_url = '/'
+
+"""
+Read events with CBV
+"""
+class read_event_class(generic.DeleteView):
+    model = Event
+    template_name = 'portal/read_event.html'
