@@ -261,7 +261,7 @@ class event_edit_tests_class(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.event_1 =         Event.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+        self.event_1 = Event.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
 
     def test_404_edit_test(self):
         url = reverse('portal:edit_event_class', kwargs={'pk':2})
@@ -280,3 +280,20 @@ class event_edit_tests_class(TestCase):
         response = self.client.post(url, edit_content)
         self.assertEqual(response.status_code, 302)
         self.assertQuerysetEqual(Event.objects.filter(title='Título editado'), ['<Event: Event object (1)>'])
+
+class event_delete_test_class(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.event_1 = Event.objects.create(title="Título 5", subtitle="Subtítulo 5", body="Cuerpo 5", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+
+    def test_404_delete(self):
+        url = reverse('portal:delete_event_class', kwargs={'pk':2})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_event(self):
+        url = reverse('portal:delete_event_class', kwargs={'pk':1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 7'), [])
