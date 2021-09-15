@@ -15,4 +15,5 @@ urlpatterns = [
     path('v2/news/<int:pk>/delete', views.delete_new_class.as_view(), name = 'delete_new_class'),
     path('v2/events/create', views.create_event_class.as_view(), name = 'event_form_class'),
     path('v2/events/<int:pk>', views.read_event_class.as_view(), name = 'read_event_class'),
+    path('v2/events/<int:pk>/edit', views.edit_event_class.as_view(), name = 'edit_event_class'),
     ]

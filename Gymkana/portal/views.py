@@ -126,3 +126,14 @@ Read events with CBV
 class read_event_class(generic.DeleteView):
     model = Event
     template_name = 'portal/read_event.html'
+
+"""
+Edit events with CBV
+"""
+class edit_event_class(generic.UpdateView):
+    model = Event
+    template_name = 'portal/edit_event.html'
+    form_class = EventForm
+
+    def get_success_url(self):
+        return reverse('portal:read_event_class', kwargs = {'pk':self.object.id})
