@@ -17,5 +17,6 @@ urlpatterns = [
     path('v2/events/<int:pk>', views.read_event_class.as_view(), name = 'read_event_class'),
     path('v2/events/<int:pk>/edit', views.edit_event_class.as_view(), name = 'edit_event_class'),
     path('v2/events/<int:pk>/delete', views.delete_event_class.as_view(), name = 'delete_event_class'),
-    path('api/events/', views.EventApiView.as_view(), name='event_api')
+    path('api/events/', views.event_APIView_create.as_view(), name='create_event_api'),
+    path('api/events/<int:pk>', views.event_APIView_detail.as_view(), name='event_detail_api'),
     ]
