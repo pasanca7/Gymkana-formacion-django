@@ -1,0 +1,23 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+
+<div style="margin-left: 5%; margin-right: 5%;">
+
+    <div style="text-align: center;">
+        <h1>{{ event.title }}</h1>
+    </div>
+
+    <div>
+        <h4>{{ event.subtitle }}</h4>
+    </div>
+
+    <div style="text-align: center;">
+        <p style="font-size: x-large;">{{ event.start_date }} - {{ event.end_date }}</p>
+    </div>
+
+    <div>
+        <p>{{ event.body }}</p>
+    </div>
+
+</div>
+{% endblock %}
