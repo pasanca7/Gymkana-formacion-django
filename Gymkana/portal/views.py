@@ -10,6 +10,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from portal import serializers
+
 class IndexView(generic.ListView):
     """
     Main view of the proyect
@@ -147,3 +152,22 @@ class delete_event_class(generic.DeleteView):
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
+
+"""
+API methods for Events
+"""
+class EventApiView(APIView):
+
+    serializer_class = serializers.event_serializer
+
+    """
+    Create an Event
+    """
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
