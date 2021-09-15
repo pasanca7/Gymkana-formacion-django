@@ -309,3 +309,11 @@ class event_create_API(TestCase):
         response = self.client.post(url, event_content)
         self.assertEqual(response.status_code, 201)
         self.assertQuerysetEqual(Event.objects.filter(title='Título 1'), ['<Event: Event object (1)>'])
+
+    def test_date_create_error(self):
+        url = reverse('portal:event_api')
+        event_content = {'title':'Título 2', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-22T09:00', 'end_date':'2021-10-21T09:00'}
+        response = self.client.post(url, event_content)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b'{"non_field_errors":["La fecha de comienzo no puede ser posterior a la fin"]}')
+        self.assertQuerysetEqual(Event.objects.filter(title='Título 2'), [])
