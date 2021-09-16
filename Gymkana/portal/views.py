@@ -188,6 +188,9 @@ class event_APIView_detail(APIView):
         serializer = serializers.event_serializer(event)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    """
+    Endpoint for Edit an Event 
+    """
     def put(self, request, pk, format=None):
         event = self.get_object(pk)
         serializer = serializers.event_serializer(event, data=request.data)
@@ -195,4 +198,9 @@ class event_APIView_detail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        event = self.get_object(pk)
+        event.delete()
+        return Response (status=status.HTTP_204_NO_CONTENT)
 
