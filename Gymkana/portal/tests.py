@@ -1,15 +1,17 @@
 import datetime
-from django.conf.urls import url
 import pytz
 import json
+import shutil
 
 from .models import New, Event
 
 from django.test import TestCase
-from django.test.client import Client
+from django.test.client import MULTIPART_CONTENT, Client
 from django.shortcuts import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
 
-
+TEST_DIR = 'test_data'
 
 class index_tests(TestCase):
 
@@ -61,6 +63,31 @@ class new_creation_tests(TestCase):
         response = self.client.post(url, new_content)
         self.assertEqual(response.status_code, 302)
         self.assertQuerysetEqual(New.objects.filter(title='Título 4'), ['<New: New object (1)>'])
+
+    @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
+    def test_create_new_image(self):
+        news_before = New.objects.count()
+        url = reverse('portal:new_form')
+        image_path = 'media/default.jpg'
+        image = SimpleUploadedFile(name='test_image.jpg', content=open(image_path, 'rb').read(), content_type='image/jpeg')
+        new_content = {'title':'Título 5', 'subtitle':'Test #6', 'body':'Esta es una noticia de prueba.', 'image':image}
+        response = self.client.post(url, new_content, content_type=MULTIPART_CONTENT)
+        news_after = New.objects.count()
+        self.assertEqual(response.status_code, 302)
+        self.assertGreater(news_after, news_before)
+
+    def test_create_new_image_error(self):
+        news_before = New.objects.count()
+        url = reverse('portal:new_form')
+        image_path = 'media/default.jpg'
+        image = SimpleUploadedFile(name='test_image.gif', content=open(image_path, 'rb').read(), content_type='image/gif')
+        new_content = {'title':'Título 5', 'subtitle':'Test #6', 'body':'Esta es una noticia de prueba.', 'image':image}
+        response = self.client.post(url, new_content, content_type=MULTIPART_CONTENT)
+        news_after = New.objects.count()
+        self.assertEqual(response.status_code, 200)
+        self.assertGreaterEqual(news_after, news_before)
+
+     
 
 class new_read_tests(TestCase):
 
