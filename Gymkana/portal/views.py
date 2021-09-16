@@ -186,5 +186,13 @@ class event_APIView_detail(APIView):
     def get(self, request, pk, format=None):
         event = self.get_object(pk)
         serializer = serializers.event_serializer(event)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk, format=None):
+        event = self.get_object(pk)
+        serializer = serializers.event_serializer(event, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
