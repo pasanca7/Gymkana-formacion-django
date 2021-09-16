@@ -1,6 +1,7 @@
 import datetime
 from django.conf.urls import url
 import pytz
+import json
 
 from .models import New, Event
 
@@ -335,3 +336,32 @@ class event_read_API(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.content, b'{"detail":"No encontrado."}')
+
+class event_edit_API(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.event_1 = Event.objects.create(title="Título 8", subtitle="Subtítulo 8", body="Cuerpo 8", start_date=datetime.datetime(2021, 9, 14, 8, 17, 0, 0, tzinfo=pytz.UTC), end_date=datetime.datetime(2021, 9, 17, 0, 0, 0, 0, tzinfo=pytz.UTC))
+
+
+    def test_create_event_API(self):
+        url = reverse('portal:event_detail_api', kwargs={'pk':1})
+        event_content = json.dumps({'id':1,'title':'Título editado', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-20T09:00', 'end_date':'2021-10-21T09:00'})
+        response = self.client.put(url, event_content, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título editado'), ['<Event: Event object (1)>'])
+
+    def test_upadate_event_404_API(self):
+        url = reverse('portal:event_detail_api', kwargs={'pk':2})
+        event_content = json.dumps({'id':1,'title':'Título editado 2', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-20T09:00', 'end_date':'2021-10-21T09:00'})
+        response = self.client.put(url, event_content, content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+        self.assertQuerysetEqual(Event.objects.filter(title='Título editado 2'), [])
+
+    def test_date_create_error_API(self):
+        url = reverse('portal:event_detail_api', kwargs={'pk':1})
+        event_content = json.dumps({'id':1,'title':'Título editado 2', 'subtitle':'Test', 'body':'Evento de preuba.', 'start_date':'2021-10-22T09:00', 'end_date':'2021-10-21T09:00'})
+        response = self.client.put(url, event_content, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b'{"non_field_errors":["La fecha de comienzo no puede ser posterior a la fin"]}')
+        self.assertQuerysetEqual(Event.objects.filter(title='Título editado 2'), [])
