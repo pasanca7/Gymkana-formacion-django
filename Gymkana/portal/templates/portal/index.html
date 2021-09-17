@@ -15,16 +15,16 @@
         <table>
             {% for new in lastest_news_list%}
             <tr class="clickable-row" data-href="v1/news/{{ new.id }}">
-                <th>
+                <td>
                     <h2> {{ new.title }} </h2>
                     <p>{{ new.subtitle }}</p>
-                </th>
-                <th><a id="form_button" href="{% url 'portal:read_new' new.id %}" style="margin-left: 5%;">
+                </td>
+                <td style="text-align: center; width: 7%;"><a id="form_button" href="{% url 'portal:read_new' new.id %}" style="margin-left: 5%;">
                     <button style="background-color: green;">Leer</button>
-                </a></th>
-                <th><a id="form_button" href="{% url 'portal:read_new_class' new.id %}" style="margin-left: 5%;">
+                </a></td>
+                <td style="text-align: center; width: 7%;"><a id="form_button" href="{% url 'portal:read_new_class' new.id %}" style="margin-left: 5%;">
                     <button style="background-color: mediumvioletred;">Leer</button>
-                </a></th>
+                </a></td>
             </tr>
             {% endfor %}
         </table>
