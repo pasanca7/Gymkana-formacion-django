@@ -1,15 +1,16 @@
 {% extends 'portal/base.html' %}
 {% block content %}
+{% load i18n %}
 
 <div class="content">
     <div class="container" id="news">
-        <h3 style="display: inline;" class="title_section">Últimas noticias</h3>
+        <h3 style="display: inline;" class="title_section">{% trans "Últimas noticias" %}</h3>
         
             <a id="form_button" href="{% url 'portal:new_form' %}" style="margin-left: 5%;">
-                <button style="background-color: green;">Nueva noticia</button>
+                <button style="background-color: green;">{% trans "Nueva noticia" %}</button>
             </a>
             <a id="form_button" href="{% url 'portal:new_form_class' %}" style="margin-left: 5%;">
-                <button style="background-color: mediumvioletred;">Nueva noticia</button>
+                <button style="background-color: mediumvioletred;">{% trans "Nueva noticia" %}</button>
             </a>
         {% if lastest_news_list %}
         <table>
@@ -20,10 +21,10 @@
                     <p>{{ new.subtitle }}</p>
                 </td>
                 <td style="text-align: center; width: 7%;"><a id="form_button" href="{% url 'portal:read_new' new.id %}" style="margin-left: 5%;">
-                    <button style="background-color: green;">Leer</button>
+                    <button style="background-color: green;">{% trans "Leer" %}</button>
                 </a></td>
                 <td style="text-align: center; width: 7%;"><a id="form_button" href="{% url 'portal:read_new_class' new.id %}" style="margin-left: 5%;">
-                    <button style="background-color: mediumvioletred;">Leer</button>
+                    <button style="background-color: mediumvioletred;">{% trans "Leer" %}</button>
                 </a></td>
             </tr>
             {% endfor %}
@@ -35,9 +36,9 @@
     </div>
     
     <div class="container" id="events" style="margin-top: 3%;">
-        <h3 style="display: inline;" class="title_section">Próximos eventos</h3>
+        <h3 style="display: inline;" class="title_section">{% trans "Próximos eventos" %}</h3>
         <a id="form_button" href="{% url 'portal:event_form_class' %}" style="margin-left: 5%;">
-            <button style="background-color: mediumvioletred;">Nuevo evento</button>
+            <button style="background-color: mediumvioletred;">{% trans "Nuevo evento" %}</button>
         </a>
         {% if next_events_list %}
         <table>
@@ -48,7 +49,7 @@
                     <p>{{ event.start_date }}</p>
                 </td>
                 <td style="text-align: center; width: 7%;"><a id="form_button" href="{% url 'portal:read_event_class' event.id %}">
-                    <button style="background-color: mediumvioletred;">Leer</button>
+                    <button style="background-color: mediumvioletred;">{% trans "Leer" %}</button>
                 </a></td>
             </tr>
             {% endfor %}

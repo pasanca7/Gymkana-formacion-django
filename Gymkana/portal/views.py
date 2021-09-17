@@ -1,4 +1,5 @@
 import io
+from django import utils
 
 from django.urls.base import reverse_lazy
 
@@ -9,6 +10,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http.response import Http404, HttpResponseRedirect
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
