@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import widgets
 from .models import Event, New
 
 class NewForm(forms.ModelForm):
@@ -45,6 +46,11 @@ class EventForm(forms.ModelForm):
             'body': 'Cuerpo',
             'start_date': 'Fecha de comienzo',
             'end_date': 'Fecha de fin'
+        }
+
+        widgets = {
+            'start_date': widgets.DateInput(attrs={'type':'date'}),
+            'end_date': widgets.DateInput(attrs={'type':'date'}),
         }
 
     def clean_end_date(self):
