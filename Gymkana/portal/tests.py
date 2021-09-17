@@ -76,7 +76,20 @@ class new_creation_tests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertGreater(news_after, news_before)
 
-    def test_create_new_image_error(self):
+    def test_create_new_image_size_error(self):
+        news_before = New.objects.count()
+        url = reverse('portal:new_form')
+        image_path = 'media/bathroom-spa-deluxe-room-or-spa-suite.jpg'
+        image = SimpleUploadedFile(name='test_image.jpg', content=open(image_path, 'rb').read(), content_type='image/jpeg')
+        new_content = {'title':'Título 5', 'subtitle':'Test #6', 'body':'Esta es una noticia de prueba.', 'image':image}
+        response = self.client.post(url, new_content, content_type=MULTIPART_CONTENT)
+        news_after = New.objects.count()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(news_after, news_before)
+        self.assertTrue('Máximo 10 MB' in response.content.decode("utf-8"))
+
+
+    def test_create_new_image_format_error(self):
         news_before = New.objects.count()
         url = reverse('portal:new_form')
         image_path = 'media/default.jpg'
@@ -86,8 +99,14 @@ class new_creation_tests(TestCase):
         news_after = New.objects.count()
         self.assertEqual(response.status_code, 200)
         self.assertGreaterEqual(news_after, news_before)
+        self.assertTrue('El formato debe ser JPG o PNG' in response.content.decode("utf-8"))
 
-     
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(TEST_DIR)
+        except OSError:
+            pass     
 
 class new_read_tests(TestCase):
 
